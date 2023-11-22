@@ -330,9 +330,9 @@ class ComplexDiagonalDynamicOperator(AbstractDynamicOperator):
         prod[..., : self.dim // 2] = real_a * real_b - imag_a * imag_b
         prod[..., self.dim // 2 :] = real_a * imag_b + imag_a * real_b
         return prod
-
+# vjcitn change 335 operator_idxs -> 0 because failed on GPU with indexes on wrong device error
     def get_operator_params_for_reg(self, operator_idxs) -> Optional[FloatTensorType]:
-        return torch.sqrt(self.real[operator_idxs] ** 2 + self.imag[operator_idxs] ** 2)
+        return torch.sqrt(self.real[0] ** 2 + self.imag[0] ** 2)
 
     def prepare_embs_for_reg(self, embs: FloatTensorType) -> FloatTensorType:
         assert embs.shape[-1] == self.dim
